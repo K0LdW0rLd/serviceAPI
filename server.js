@@ -5,6 +5,9 @@ const ServiceRoutes = require("./api/routes/serviceRoutes");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
+app.route("/").get(function (req, res) {
+  res.sendFile(process.cwd() + "/index.html");
+});
 app.use("/", ServiceRoutes);
 
 // var routes = require("./api/routes/serviceRoutes"); //importing route
