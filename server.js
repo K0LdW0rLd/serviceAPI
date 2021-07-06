@@ -1,26 +1,16 @@
 require("dotenv").config();
-var express = require("express"),
-  app = express(),
-  port = process.env.PORT || 8080,
-  mongoose = require("mongoose"),
-  Service = require("./api/models/serviceModel"),
-  bodyParser = require("body-parser");
+const express = require("express");
+const app = express();
+const ServiceRoutes = require("./api/routes/serviceRoutes");
+const bodyParser = require("body-parser");
 
-const helmet = require("helmet");
-const compression = require("compression");
-
-// mongoose instance connection url connection
-mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost/Servicedb");
-
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(helmet());
-app.use(compression());
+app.use("/", ServiceRoutes);
 
-var routes = require("./api/routes/serviceRoutes"); //importing route
-routes(app); //register the route
+// var routes = require("./api/routes/serviceRoutes"); //importing route
+// routes(app); //register the route
+app.set("port", process.env.PORT || 8080);
 
-app.listen(port);
-
-console.log("Service RESTful API server started on: " + port);
+app.listen(app.get("port"), () => {
+  console.log(`✅ PORT: ${app.get("port")} 🌟`);
+});
