@@ -1,8 +1,11 @@
 const Service = require("../models/serviceModel");
 
 exports.listServices = function (req, res) {
-  Service.find({}).then((item) => {
-    res.json(item);
+  Service.find({}, (err, data) => {
+    if (err) {
+      return res.json({ Error: err });
+    }
+    return res.json(data);
   });
 };
 
