@@ -9,34 +9,10 @@ exports.listServices = function (req, res) {
   });
 };
 
-exports.getOne = function (req, res) {
-  let name = req.params.name;
-  Service.findOne({ name: name }, (err, data) => {
-    if (err || !data) {
-      return res.json({ message: "Service doesn't exist." });
-    } else return res.json(data);
-  });
-};
-
 exports.createService = function (req, res) {
-  Service.findOne({ name: req.body.name }, (data) => {
-    //if tea not in db, add it
-    if (data === null) {
-      //create a new tea object using the Tea model and req.body
-      const newService = new Service({
-        name: req.body.name,
-        price: req.body.price, // placeholder for now
-        description: req.body.description,
-      });
-      // save this object to database
-      Service.save((err, data) => {
-        if (err) return res.json({ Error: err });
-        return res.json(data);
-      });
-      //if tea is in db, return a message to inform it exists
-    } else {
-      return res.json({ message: "Service already exists" });
-    }
+  let newService = new Service(req.body);
+  newService.save((item) => {
+    res.json(item);
   });
 };
 
