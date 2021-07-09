@@ -3,7 +3,9 @@ const express = require("express");
 const app = express();
 const ServiceRoutes = require("./api/routes/serviceRoutes");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
+app.use(cors());
 app.use(bodyParser.json());
 app.route("/").get(function (req, res) {
   res.sendFile(process.cwd() + "/index.html");
